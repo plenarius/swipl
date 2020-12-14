@@ -1,6 +1,6 @@
 set(WIN32_CONSOLE_SOURCES complete.c console.c edit.c history.c menu.c)
 
-add_library(libplterm SHARED
+add_library(libplterm STATIC
 	    ${WIN32_CONSOLE_SOURCES})
 set_target_properties(libplterm PROPERTIES
 		      OUTPUT_NAME plterm PREFIX "")

@@ -316,11 +316,11 @@ endif()
 
 # build swipl
 add_executable(swipl ${SWIPL_SRC})
-target_link_libraries(swipl ${SWIPL_LIBRARIES} libswipl)
+target_link_libraries(swipl ${SWIPL_LIBRARIES} libswipl z)
 target_c_stack(swipl 4000000)
 if(MINGW_ROOT)
   message("Adding -municode")
-  target_link_options(swipl PRIVATE -municode)
+  target_link_options(swipl PRIVATE -municode -static)
 endif()
 
 # build the library
@@ -356,7 +356,11 @@ target_include_directories(libswipl INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/os>
   $<INSTALL_INTERFACE:${SWIPL_INSTALL_INCLUDE}>)
-target_link_libraries(libswipl PRIVATE ${LIBSWIPL_LIBRARIES})
+target_link_libraries(libswipl PRIVATE ${LIBSWIPL_LIBRARIES} z)
+if(MINGW_ROOT)
+  message("Adding -static")
+  target_link_options(libswipl PRIVATE -static)
+endif()
 
 if(BUILD_SWIPL_LD)
   add_executable(swipl-ld ${SRC_SWIPL_LD})

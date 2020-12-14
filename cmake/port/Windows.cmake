@@ -55,7 +55,7 @@ function(find_windows_dlls var)
    set(dlls)
    foreach(p ${ARGN})
      set(dll)
-     find_file_from_pattern(dll ${MINGW_ROOT}/bin ${p})
+     find_file_from_pattern(dll ${MINGW_ROOT}/lib ${p})
      if(dll)
        set(dlls ${dlls} ${dll})
      endif()
@@ -65,11 +65,6 @@ endfunction()
 
 message("-- Finding required external DLLs")
 find_windows_dlls(WIN32_DLLS ${WIN32_DLL_PATTERNS})
-
-foreach(dll ${WIN32_DLLS})
-  file(COPY ${MINGW_ROOT}/bin/${dll}
-       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src)
-endforeach()
 
 set(WIN32_DLLS ${WIN32_DLLS} CACHE INTERNAL "WIN32 DLLs to copy")
 endif(NOT DEFINED WIN32_DLLS)
